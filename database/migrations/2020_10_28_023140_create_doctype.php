@@ -16,6 +16,7 @@ class CreateDoctype extends Migration
         Schema::create('doctype', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('color',7);
             $table->char('active',1);
             $table->string('audit_at');
             $table->timestamp('audit_date');

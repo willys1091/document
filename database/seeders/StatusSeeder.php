@@ -14,9 +14,9 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        status::create(['name' => 'Open', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Accept', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Reject', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Revision', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Open','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Accept','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Reject','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Revision','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
     }
 }

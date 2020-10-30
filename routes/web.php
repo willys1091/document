@@ -22,12 +22,12 @@ Route::get('dashboard', 'MainController@dashboard');
 Route::post('validasi', 'MainController@validasi');
 Route::get('logout', 'MainController@logout');
 
-Route::resource('content', 'ContentController');
-Route::resource('blog', 'BlogController');
-Route::resource('contact', 'ContactController');
-Route::resource('blog', 'BlogController');
-Route::resource('transaction', 'TransactionController');
-
+Route::get('attribute/{modul}', 'AttributeController@index');
+Route::get('attribute/{modul}/create', 'AttributeController@create');
+Route::post('attribute/{modul}', 'AttributeController@store');
+Route::get('peoattributeple/{modul}/{id}', 'AttributeController@edit');
+Route::patch('attribute/{modul}/{id}', 'AttributeController@update');
+Route::get('attribute/{modul}/{id}/{param}', 'AttributeController@show');
 
 Route::get('people/{modul}', 'PeopleController@index');
 Route::get('people/{modul}/create', 'PeopleController@create');

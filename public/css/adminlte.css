@@ -31093,4 +31093,16 @@ a.text-muted:hover {
 [class*="accent-"] a.btn-dark {
   color: #ffffff;
 }
+
+#voyager-loader{background:#f9f9f9;position:fixed;width:100%;height:100%;left:0;top:0;z-index:99}#voyager-loader img{width:100px;height:100px;position:absolute;top:50%;left:50%;margin-left:-50px;margin-right:-50px;-webkit-animation:spin 1s linear infinite;animation:spin 1s linear infinite}
+@-webkit-keyframes spin {
+	0%   {-webkit-transform: rotate(0deg);}
+
+	100% {-webkit-transform: rotate(360deg);}
+}
+@keyframes spin {
+	0%   {transform: rotate(0deg);}
+
+	100% {transform: rotate(360deg);}
+}
 /*# sourceMappingURL=adminlte.css.map */

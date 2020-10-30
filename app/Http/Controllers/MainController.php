@@ -18,19 +18,16 @@ class MainController extends Controller{
     }
 
     public function validasi(Request $request){
-        $admin = users::where(['email' => $request->input('email'),'password' => md5($request->input('password'))]);
+        $admin = users::where(['email' => $request->input('email'),'password_hash' => md5($request->input('password'))]);
         $jumlah = $admin->count();
         if($jumlah=='1'){
             $data = $admin->get();
             $ses = array(
 				'id' =>$data[0]['id'],
-				'roleid' =>$data[0]['roleid'],
-				'type'=>$data[0]['type'],
-				'title' =>$data[0]['title'],
-				'email' =>$data[0]['email'],
-				'name' =>$data[0]['name'],
-				'avatar' =>$data[0]['avatar'],
-				'password' =>$data[0]['password'],
+				'username' =>$data[0]['username'],
+				'email'=>$data[0]['email'],
+				'status' =>$data[0]['status'],
+				'password' =>$data[0]['password_hash'],
 				'is_login' => true
 			);
             Session::put($ses);

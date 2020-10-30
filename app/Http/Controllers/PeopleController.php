@@ -17,7 +17,7 @@ class PeopleController extends Controller{
 
     public function index(){
         $modul = request()->segment(2);
-        $data['title']=ucwords($modul)." | Butuhuang";
+        $data['title']=ucwords($modul)." | DMS";
         $data['view'] =$modul=='admin'?admin::all():users::all();
         $data['contentehader']= "mdl";
 		$data['btn'] = array('title'=>'Add '.$modul,'url'=>'people/'.$modul.'/create','icon'=>'fas fa-plus');

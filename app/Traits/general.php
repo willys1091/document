@@ -14,7 +14,7 @@ trait general
 	public function log_system($modul,$action,$id){
 		$ip =  \Request::ip();
 		$description = $modul ." ".$action." - ID:".$id;
-		DB::table('systemlog')->insert(['admin_id' => Session::get('id'),'ipaddress' => $ip,'description' => $description,'timestamp' => now()]);
+		DB::table('systemlog')->insert(['user_id' => Session::get('id'),'ipaddress' => $ip,'description' => $description,'timestamp' => now()]);
 	}
 
 	public function smartDatepast($timestamp){
