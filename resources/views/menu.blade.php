@@ -59,13 +59,13 @@
           	</li>
 			<li class="nav-item">
 				<a href="{{url('files')}}" class="nav-link {{request()->segment(1)=='blog'?"active":""}}">
-					<i class="nav-icon fas fa-file"></i><p>Files</p>
+					<i class="nav-icon fas fa-photo-video"></i><p>Files</p>
 				</a>
 			</li>
 
             <li class="nav-item">
-				<a href="{{url('transaction')}}" class="nav-link {{request()->segment(1)=='transaction'?"active":""}}">
-					<i class="nav-icon fas fa-money-bill"></i><p>Document</p>
+				<a href="{{url('document')}}" class="nav-link {{request()->segment(1)=='document'?"active":""}}">
+					<i class="nav-icon fas fa-file"></i><p>Document</p>
 				</a>
 			</li>
 

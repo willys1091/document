@@ -17,9 +17,9 @@ class CreateDocument extends Migration
             $table->id();
             $table->string('doc_no');
             $table->string('sequence');
-            $table->string('typedoc_id');
-            $table->string('status');
-            $table->string('division');
+            $table->string('doctype_id');
+            $table->string('status_id');
+            $table->string('division_id');
             $table->string('title');
             $table->text('message');
             $table->string('audit_at');

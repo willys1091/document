@@ -5,10 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>{{$title}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="{{asset('img/logo.png')}}">
-	<link rel="apple-touch-icon" href="{{asset('img/logo.png')}}">
-	<link rel="image_src" href="{{asset('img/logo.png')}}">
-	<link rel="stylesheet" href="{{asset('plugins/fontawesome-pro/css/all.min.css')}}">
+	<link rel="shortcut icon" href="{{asset('public/img/logo-icon.png')}}">
+	<link rel="apple-touch-icon" href="{{asset('public/img/logo-icon.png')}}">
+	<link rel="image_src" href="{{asset('public/img/logo-icon.png')}}">
+	<link rel="stylesheet" href="{{asset('public/plugins/fontawesome-pro/css/all.min.css')}}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css">
 	<link rel="stylesheet" href="{{asset('public/plugins/jqvmap/jqvmap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
@@ -25,8 +25,8 @@
     <link rel="stylesheet" href="{{asset('public/plugins/fullcalendar-daygrid/main.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/plugins/fullcalendar-timegrid/main.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/plugins/fullcalendar-bootstrap/main.min.css')}}">
-<link rel="stylesheet" href="{{asset('public/css/adminlte.css')}}">
-	<link rel="stylesheet" href="{{asset('public/custom.css')}}>
+    <link rel="stylesheet" href="{{asset('public/css/adminlte.css')}}">
+	<link rel="stylesheet" href="{{asset('public/custom.css')}}">
 	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -66,8 +66,9 @@
             </aside>
 		</div>
 @endif
-<script src="{{env('assets')}}plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{asset('public/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script>$.widget.bridge('uibutton', $.ui.button)</script>
+<script src="{{asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('public/plugins/pace-progress/pace.min.js')}}"></script>
 <script src="{{asset('public/plugins/chart.js/Chart.min.js')}}"></script>
 <script src="{{asset('public/plugins/sparklines/sparkline.js')}}"></script>
@@ -77,6 +78,7 @@
 <script src="{{asset('public/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('public/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+{{-- <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script> --}}
 <script src="{{asset('public/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{asset('public/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
@@ -93,7 +95,7 @@
 <script src="{{asset('public/plugins/fullcalendar-bootstrap/main.min.js')}}"></script>
 <script src="{{asset('public/js/adminlte.js')}}"></script>
 <script src="{{asset('public/app.js')}}"></script>
-<script src="{{asset('public/js/jquery.mask.min')}}.js"></script>
+<script src="{{asset('public/js/jquery.mask.min.js')}}"></script>
 <script>
     $('#voyager-loader').fadeOut();
 	$(".numonly").on("keypress keyup blur",function (event) {
@@ -106,6 +108,13 @@
 	$('#myModal').on('shown.bs.modal', function() {
         $('input:text:visible:first', this).trigger('focus');
     });
+    const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const userPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    // if(userPrefersDark){
+    //     alert("User prefers a dark interface");
+    // }else{
+    //     alert("User prefers a light interface");
+    // }
 </script>
 </body>
 </html>

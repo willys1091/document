@@ -9,4 +9,8 @@ class division extends Model{
     use HasFactory;
     protected $table = 'division';
     public $timestamps = false;
+
+    public function document(){
+        return $this->HasMany('App\Models\document');
+    }
 }

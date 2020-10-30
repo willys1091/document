@@ -13,7 +13,7 @@ class MainController extends Controller{
     }
 
     public function index(){
-        $data['title']='Login | Document';
+        $data['title']='Login | DMS';
         return view('login.login',$data);
     }
 
@@ -46,7 +46,7 @@ class MainController extends Controller{
 
     public function dashboard(){
 		if(Session::has('is_login')){
-            $data['title']='Dashboard | Document';
+            $data['title']='Dashboard | DMS';
 	    	$data['contentehader']= "bc";
 			$bc[]= array('title'=>'Dashboard','url'=>'','active'=>'1');
             $data['bc'] = $bc;
