@@ -3,13 +3,7 @@
 <div class="content-wrapper">
 @include('breadcrumb')
 	<section class="content">
-        @if($action=='add')
-            <form method="post" role="form" id="form" enctype="multipart/form-data" onsubmit="submit.disabled = true; return true;">
-        @else
-            <form action="{{ url('document') }}" method="post" role="form" id="form" enctype="multipart/form-data">@method('patch')
-            <input type="hidden" name="id" value="{{$id}}">
-        @endif
-        @csrf
+        <form action="{{url('document')}}" method="post" role="form" id="form" enctype="multipart/form-data" onsubmit="submit.disabled = true; return true;">@csrf
 		<div class="row">
 			<div class="col-12">
 				<div class="card card-primary card-outline">
@@ -39,7 +33,7 @@
                                     <select class="form-control select2bs4" name="division" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                         <option value="">&nbsp;</option>
                                         @foreach($division as $d)
-                                            <option value='{{$d->id}}'{{$action=='edit'?$d->id==$vacancy->level_id?'selected':'':''}}>{{$d->name}}</option>
+                                            <option value='{{$d->id}}'>{{$d->name}}</option>
                                         @endforeach
 						            </select>
                                 </div>
@@ -51,7 +45,7 @@
                                     <select class="form-control select2bs4" name="doctype" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                         <option value="">&nbsp;</option>
                                         @foreach($doctype as $dt)
-                                            <option value='{{$dt->id}}'{{$action=='edit'?$dt->id==$vacancy->level_id?'selected':'':''}}>{{$dt->name}}</option>
+                                            <option value='{{$dt->id}}'>{{$dt->name}}</option>
                                         @endforeach
 						            </select>
                                 </div>
@@ -62,18 +56,19 @@
                 </div>
                 <div class="card card-primary card-outline">
 					<div class="card-body">
-                        <label for="name">Attachment <span class='merah'>*</span></label>
-                        <input type="file" class="form-control" name="userfile[]" accept="image/*" multiple>
-					</div>
-			    </div>
-                <div class="card card-primary card-outline">
-					<div class="card-body">
                         <label for="name">Message <span class='merah'>*</span></label>
                         <textarea class="form-control summernote" id="message" name="message"></textarea>
+                        <div class="form-group">
+                            {{-- <div class="btn btn-default btn-file">
+                                <i class="fas fa-paperclip"></i> Attachment<input type="file" name="attachment">
+                            </div>
+                            <p class="help-block">Max. 32MB</p> --}}
+                            <input id="userfile" name="userfile[]" type="file" multiple>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-success float-right"><i class="fa fa-paper-plane"></i> Submit</button>@method('post')
-                        <button type="submit"  onclick="window.location='{{ url("document/draft") }}'" class="btn btn-info float-right"><i class="fab fa-firstdraft"></i> Save as Draft</button>@method('post')
+                        <button type="submit" class="btn btn-info float-right"><i class="fab fa-firstdraft"></i> Save as Draft</button>@method('post')
                     </div>
                 </div>
             </div>
@@ -85,6 +80,14 @@
 		$('.select2bs4').select2({ theme: 'bootstrap4' })
 		bsCustomFileInput.init();
 
+        $("#userfile").fileinput({
+            theme: "fas",
+            showCaption: false,
+            dropZoneEnabled: false,
+            allowedFileTypes: ["image", "pdf"],
+            maxFileSize: 10000,
+            browseLabel: " Attach Files",
+        });
 	});
     $(function() { $(".select2tags").select2({tags: true}); });
 

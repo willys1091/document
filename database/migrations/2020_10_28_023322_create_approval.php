@@ -15,7 +15,9 @@ class CreateApproval extends Migration
     {
         Schema::create('approval', function (Blueprint $table) {
             $table->id();
+            $table->string('document_id');
             $table->string('type');
+            $table->string('email');
             $table->string('status');
             $table->string('audit_at');
             $table->timestamp('audit_date');

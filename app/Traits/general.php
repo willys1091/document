@@ -82,12 +82,27 @@ trait general
 		}
     }
 
+    public function run_number($check){
+        switch ($check) {
+            case ($check < 10):
+                return $runnum = '00'.$check;
+                break;
+            case ($check < 100):
+                return $runnum = '0'.$check;
+                break;
+            case ($check < 1000):
+                return $runnum = $check;
+                break;
+        }
+    }
+
     public function SendEmail($email,$name,$param=null){
         try{
             $notif = DB::table('notificationtemplate')->where('name',$name)->first();
             $subject = $notif->subject;
             $msg = $notif->message;
             $username = DB::table('user')->where('email',$email)->value('name');
+            $data['template'] = '1';
             $data['mailname'] = $name;
             $data['msg'] = $msg;
             $data['subject'] = $subject;
@@ -113,6 +128,27 @@ trait general
                 // if($BCC!=""){
                 //     $message->bcc($BCC);
                 // }
+            });
+            DB::table('emaillog')->insert(['user_id' => Session::get('id')??DB::table('user')->where('email',$email)->value('id'),'to' => $email,'subject' => $subject,'timestamp' => now()]);
+            return true;
+        }catch (Exception $e){
+            session::flash('error','error');
+            session::flash('message',$e->getMessage());
+            return false;
+        }
+    }
+    public function SendEmail2($email,$subject,$msg,$param){
+        try{
+            $data['template'] = '2';
+            $data['subject'] = $subject;
+            $data['msg'] = $msg;
+            $data['id'] = $param;
+
+            Mail::send('email', $data, function ($message) use($subject,$email)
+            {
+                $message->subject($subject);
+                $message->from('Mulyadi@butuhuang.id', Session::get('username').'- Document Management System');
+                $message->to($email);
             });
             DB::table('emaillog')->insert(['user_id' => Session::get('id')??DB::table('user')->where('email',$email)->value('id'),'to' => $email,'subject' => $subject,'timestamp' => now()]);
             return true;

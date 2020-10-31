@@ -21,4 +21,8 @@ class document extends Model{
     public function status(){
         return $this->belongsTo('App\Models\status','status_id');
     }
+
+    public function approval(){
+        return $this->HasMany('App\Models\approval');
+    }
 }

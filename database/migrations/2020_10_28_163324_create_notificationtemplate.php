@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDivision extends Migration
+class CreateNotificationtemplate extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateDivision extends Migration
      */
     public function up()
     {
-        Schema::create('division', function (Blueprint $table) {
+        Schema::create('notificationtemplate', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('prefix');
-            $table->char('active',1);
-            $table->string('audit_at');
-            $table->timestamp('audit_date');
+            $table->string('subject');
+            $table->text('message');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateDivision extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('division');
+        Schema::dropIfExists('notificationtemplate');
     }
 }

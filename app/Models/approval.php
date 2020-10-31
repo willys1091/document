@@ -9,4 +9,8 @@ class approval extends Model{
     use HasFactory;
     protected $table = 'approval';
     public $timestamps = false;
+
+    public function document(){
+        return $this->belongsTo('App\Models\document','document_id');
+    }
 }

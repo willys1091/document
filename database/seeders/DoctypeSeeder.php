@@ -14,7 +14,8 @@ class DoctypeSeeder extends Seeder
      */
     public function run()
     {
-        doctype::create(['name' => 'IOM','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        doctype::create(['name' => 'MOM','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        doctype::create(['name' => 'Internal Memo','prefix'=>'IOM','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        doctype::create(['name' => 'Invoice','prefix'=>'INV','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        doctype::create(['name' => 'MOM','prefix'=>'MOM','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
     }
 }
