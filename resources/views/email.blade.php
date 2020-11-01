@@ -13,7 +13,47 @@
             $msg = str_replace("{interviewer}",ucwords($interviewer),$msg);
         }
     }elseif($template=='2'){
-        $button = "<a href='".url('approval/3')."}'>Apporove</a>&emsp;<a href='".url('approval/4')."}'>Reject</a>&emsp;<a href='".url('approval/5')."}'>Revision</a>";
+        if($param['btn']=='approval'){
+            $button = "
+        <a href='".url('approval/'.base64_encode('3/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+            style='
+                    width: 100px;
+                    height: 25px;
+                    background: #28a745;
+                    padding: 10px;
+                    text-align: center;
+                    border-radius: 5px;
+                    color: white;
+                    font-weight: bold;
+                    line-height: 25px;
+                    text-decoration:none;'>Apporove</a>
+                    <a href='".url('approval/'.base64_encode('4/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+                style='
+                        width: 100px;
+                        height: 25px;
+                        background: #c82333;
+                        padding: 10px;
+                        text-align: center;
+                        border-radius: 5px;
+                        color: white;
+                        font-weight: bold;
+                        line-height: 25px;
+                        text-decoration:none;'>Reject</a>
+
+                        <a href='".url('approval/'.base64_encode('5/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+                style='
+                        width: 100px;
+                        height: 25px;
+                        background: #e0a800;
+                        padding: 10px;
+                        text-align: center;
+                        border-radius: 5px;
+                        color: white;
+                        font-weight: bold;
+                        line-height: 25px;
+                        text-decoration:none;'>Revision</a>";
+        }
+
         $msg = $msg .'<br>'. $button;
     }
 

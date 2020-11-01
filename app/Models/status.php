@@ -13,4 +13,8 @@ class status extends Model{
     public function document(){
         return $this->HasMany('App\Models\document');
     }
+
+    public function approval(){
+        return $this->HasMany('App\Models\approval');
+    }
 }

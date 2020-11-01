@@ -40,8 +40,16 @@ class DocumentController extends Controller{
     }
 
     public function store(Request $request){
+        // echo $request->file('userfile');
+        // if ($request->hasFile('userfile')){
+        //     echo count($request->userfile);
+        //     // $this->upload($request->file('userfile'),$id,'\photo');
+        //     // $per = resume_personality::findorfail($id);
+        //     // $per->photo = Session::get('filename');
+        //     // $per->save();
+        // }
         $dt = doctype::where('id',$request->doctype)->value('prefix');
-        echo $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
+        $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
         $runnum = $this->run_number($check);
         $doc = new document;
         $doc->doc_no = $dt.'/'.date("Ymd").'/'.$runnum;
@@ -60,11 +68,14 @@ class DocumentController extends Controller{
             $app->document_id = $doc->id;
             $app->type = 'To';
             $app->email = $request->to[$x];
-            $app->status = '2';
+            $app->status_id = '2';
             $app->audit_at = Session::get('id');
             $app->audit_date = date("Y-m-d H:i:s");
             $app->save();
-            $this->SendEmail2($request->to[$x],$request->subject,$request->message,$doc->id);
+            $param['doc_id'] = $doc->id;
+            $param['app_id'] = $app->id;
+            $param['btn'] = 'approval';
+            $this->SendEmail2($request->to[$x],$request->subject,$request->message,$param);
         }
 
         for($y=0;$y<count($request->cc);$y++){
@@ -72,16 +83,30 @@ class DocumentController extends Controller{
             $app->document_id = $doc->id;
             $app->type = 'CC';
             $app->email = $request->cc[$y];
-            $app->status = '2';
             $app->audit_at = Session::get('id');
             $app->audit_date = date("Y-m-d H:i:s");
             $app->save();
         }
+    }
 
+    public function upload(Request $request){
+
+        // $files = $request->file('userfile');
+        // if ($request->hasFile('userfile')){
+        //     $nombre = $_FILES["ficheroExcel"]["name"];
+        //     $bdInteli = $_POST['bdInteli'];
+        //     if (move_uploaded_file($_FILES["ficheroExcel"]["tmp_name"], $nombre) ){
+        //         $output = array('uploaded' => 'OK' );
+        //     } else {
+        //        $output = array('uploaded' => 'ERROR' );
+        //     }
+        //     echo json_encode($output);
+        // }
     }
 
     public function draft(Request $request){
-        echo $request->doctype;
+        echo count($request->to);
+        echo $request->to[0];
     }
 
     public function show($id){

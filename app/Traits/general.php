@@ -74,7 +74,7 @@ trait general
 		$ext =  $file->getClientOriginalExtension();
 		if($file->isValid()){
 			$filename = $id.".$ext";
-			$file->move('../doc/'.$folder,$filename);
+			$file->move('./public/img/'.$folder,$filename);
 			session::flash('filename',$filename);
 			return TRUE;
 		}else{
@@ -138,11 +138,13 @@ trait general
         }
     }
     public function SendEmail2($email,$subject,$msg,$param){
+        $userid = DB::table('users')->where('email',$email)->value('id');
         try{
             $data['template'] = '2';
             $data['subject'] = $subject;
             $data['msg'] = $msg;
-            $data['id'] = $param;
+            $data['param'] = $param;
+            $data['email'] = $email;
 
             Mail::send('email', $data, function ($message) use($subject,$email)
             {

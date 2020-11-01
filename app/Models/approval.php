@@ -13,4 +13,8 @@ class approval extends Model{
     public function document(){
         return $this->belongsTo('App\Models\document','document_id');
     }
+
+    public function status(){
+        return $this->belongsTo('App\Models\status','status_id');
+    }
 }

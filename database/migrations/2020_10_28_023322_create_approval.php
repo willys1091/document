@@ -18,7 +18,7 @@ class CreateApproval extends Migration
             $table->string('document_id');
             $table->string('type');
             $table->string('email');
-            $table->string('status');
+            $table->string('status_id')->nullable();
             $table->string('audit_at');
             $table->timestamp('audit_date');
         });
