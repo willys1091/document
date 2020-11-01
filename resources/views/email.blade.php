@@ -15,7 +15,7 @@
     }elseif($template=='2'){
         if($param['btn']=='approval'){
             $button = "
-        <a href='".url('approval/'.base64_encode('3/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+        <a href='".url('approval/'.base64_encode('3/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email.'/email'))."'
             style='
                     width: 100px;
                     height: 25px;
@@ -27,7 +27,7 @@
                     font-weight: bold;
                     line-height: 25px;
                     text-decoration:none;'>Apporove</a>
-                    <a href='".url('approval/'.base64_encode('4/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+                    <a href='".url('approval/'.base64_encode('4/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email.'/email'))."'
                 style='
                         width: 100px;
                         height: 25px;
@@ -40,7 +40,7 @@
                         line-height: 25px;
                         text-decoration:none;'>Reject</a>
 
-                        <a href='".url('approval/'.base64_encode('5/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email))."'
+                        <a href='".url('approval/'.base64_encode('5/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email.'/email'))."'
                 style='
                         width: 100px;
                         height: 25px;
@@ -52,9 +52,8 @@
                         font-weight: bold;
                         line-height: 25px;
                         text-decoration:none;'>Revision</a>";
+                        $msg = $msg .'<br>'. $button;
         }
-
-        $msg = $msg .'<br>'. $button;
     }
 
 @endphp

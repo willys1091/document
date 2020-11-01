@@ -14,10 +14,10 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        status::create(['name' => 'Draft','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Open','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Accept','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Reject','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
-        status::create(['name' => 'Revision','color'=>'#000000', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Draft','color'=>'#1d2124', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Open','color'=>'#007bff', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Accept','color'=>'#28a745', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Reject','color'=>'#c82333', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
+        status::create(['name' => 'Revision','color'=>'#e0a800', 'active' => '1', 'audit_at' => '0','audit_date' => now(),]);
     }
 }

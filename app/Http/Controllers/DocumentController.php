@@ -24,6 +24,7 @@ class DocumentController extends Controller{
         $data['contentehader']= "btn";
 		$data['btn'] = array('title'=>'Add Document','url'=>'document/create','icon'=>'fas fa-plus');
         $data['view'] = document::all();
+        $data['approval']= approval::where([['email','=',Session::get('email')],['type','=','To']])->get();
         return view('document.index',$data);
     }
 
@@ -48,45 +49,54 @@ class DocumentController extends Controller{
         //     // $per->photo = Session::get('filename');
         //     // $per->save();
         // }
-        $dt = doctype::where('id',$request->doctype)->value('prefix');
-        $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
-        $runnum = $this->run_number($check);
-        $doc = new document;
-        $doc->doc_no = $dt.'/'.date("Ymd").'/'.$runnum;
-        $doc->sequence = '0';
-        $doc->doctype_id = $request->doctype;
-        $doc->status_id = '2';
-        $doc->division_id =  $request->division;
-        $doc->title = $request->subject;
-        $doc->message = htmlspecialchars($request->message);
-        $doc->audit_at = Session::get('id');
-        $doc->audit_date = date("Y-m-d H:i:s");
-        $doc->save();
+        try{
+            $dt = doctype::where('id',$request->doctype)->value('prefix');
+            $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
+            $runnum = $this->run_number($check);
+            $doc = new document;
+            $doc->doc_no = $dt.'/'.date("Ymd").'/'.$runnum;
+            $doc->sequence = '0';
+            $doc->doctype_id = $request->doctype;
+            $doc->status_id = '2';
+            $doc->division_id =  $request->division;
+            $doc->title = $request->subject;
+            $doc->message = htmlspecialchars($request->message);
+            $doc->audit_at = Session::get('id');
+            $doc->audit_date = date("Y-m-d H:i:s");
+            $doc->save();
 
-        for($x=0;$x<count($request->to);$x++){
-            $app = new approval;
-            $app->document_id = $doc->id;
-            $app->type = 'To';
-            $app->email = $request->to[$x];
-            $app->status_id = '2';
-            $app->audit_at = Session::get('id');
-            $app->audit_date = date("Y-m-d H:i:s");
-            $app->save();
-            $param['doc_id'] = $doc->id;
-            $param['app_id'] = $app->id;
-            $param['btn'] = 'approval';
-            $this->SendEmail2($request->to[$x],$request->subject,$request->message,$param);
-        }
+            for($x=0;$x<count($request->to);$x++){
+                $app = new approval;
+                $app->document_id = $doc->id;
+                $app->type = 'To';
+                $app->email = $request->to[$x];
+                $app->status_id = '2';
+                $app->audit_at = Session::get('id');
+                $app->audit_date = date("Y-m-d H:i:s");
+                $app->save();
+                $param['doc_id'] = $doc->id;
+                $param['app_id'] = $app->id;
+                $param['btn'] = 'approval';
+                $this->SendEmail2($request->to[$x],$request->subject,$request->message,$param);
+            }
 
-        for($y=0;$y<count($request->cc);$y++){
-            $app = new approval;
-            $app->document_id = $doc->id;
-            $app->type = 'CC';
-            $app->email = $request->cc[$y];
-            $app->audit_at = Session::get('id');
-            $app->audit_date = date("Y-m-d H:i:s");
-            $app->save();
+            for($y=0;$y<count($request->cc);$y++){
+                $app = new approval;
+                $app->document_id = $doc->id;
+                $app->type = 'CC';
+                $app->email = $request->cc[$y];
+                $app->audit_at = Session::get('id');
+                $app->audit_date = date("Y-m-d H:i:s");
+                $app->save();
+            }
+            session::flash('error','success');
+            session::flash('message','Document Added Succesfully');
+        }catch(Exception $e){
+            session::flash('error','error');
+            session::flash('message',$e->getMessage());
+
         }
+        return redirect('document');
     }
 
     public function upload(Request $request){

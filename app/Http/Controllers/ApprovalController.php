@@ -10,7 +10,7 @@ class ApprovalController extends Controller{
     use \App\Traits\general;
 
     public function index($param){
-         $par = explode('/',base64_decode($param));
+        $par = explode('/',base64_decode($param));
         $cek = approval::where([['id','=',$par[2]],['email','=',$par[3]],['status_id','=','2']])->count();
         if($cek=='1'){
             $app = approval::findorfail($par[2]);
@@ -29,6 +29,14 @@ class ApprovalController extends Controller{
                 $doc->audit_date = date("Y-m-d H:i:s");
                 $doc->save();
 
+                $email = approval::where([['document_id','=',$par[1]]])->get();
+
+                $subject = document::where([['id','=',$par[1]]])->value('title');
+                $message = document::where([['id','=',$par[1]]])->value('message');
+                $par['btn'] = '';
+                foreach($email as $e){
+                    $this->SendEmail2($e['email'],$subject,htmlspecialchars_decode($message),$par);
+                }
             }else{
                 $doc = document::findorfail($par[1]);
 
@@ -41,10 +49,28 @@ class ApprovalController extends Controller{
                 $doc->save();
                 $app = approval::where([['document_id','=',$par[1]],['type','=','To'],['status_id','=','2']])->update(['status_id'=>'4','audit_date'=>date("Y-m-d H:i:s")]);
             }
-
-            return view('approval.success');
+            if($par[4]=='email'){
+                return view('approval.success');
+            }elseif($par[4]=='web'){
+                session::flash('error','success');
+                if($par[0]=='3'){
+                    session::flash('message','Approval Change to Approved Succesfully');
+                }elseif($par[0]=='4'){
+                    session::flash('message','Approval Change to Rejected Succesfully');
+                }elseif($par[0]=='5'){
+                    session::flash('message','Approval Change to Revised Succesfully');
+                }
+                return redirect('document');
+            }
        }else{
-            return view('approval.error');
+            if($par[4]=='email'){
+                return view('approval.error');
+            }elseif($par[4]=='web'){
+                session::flash('error','error');
+                session::flash('message','Approval Change unsuccesfully');
+                return redirect('document');
+            }
+
         }
 
     }
