@@ -73,7 +73,7 @@ trait general
     public function upload($file,$id,$folder){
 		$ext =  $file->getClientOriginalExtension();
 		if($file->isValid()){
-			$filename = date("Ymd").''.$id.".$ext";
+			$filename = $id.".$ext";
 			$file->move('./public/img/'.$folder,$filename);
 			session::flash('filename',$filename);
 			return TRUE;
@@ -140,21 +140,17 @@ trait general
     public function SendEmail2($email,$subject,$msg,$param){
         $userid = DB::table('users')->where('email',$email)->value('id');
         try{
-            $files = DB::table('file')->where('doc_id',$param['doc_id'])->get();
             $data['template'] = '2';
             $data['subject'] = $subject;
             $data['msg'] = $msg;
             $data['param'] = $param;
             $data['email'] = $email;
 
-            Mail::send('email', $data, function ($message) use($subject,$email,$files){
+            Mail::send('email', $data, function ($message) use($subject,$email)
+            {
                 $message->subject($subject);
-                $message->from('Mulyadi@butuhuang.id', Session::get('username').'- Document Management System');
+                $message->from('willys@airvels.com', Session::get('username').'- Document Management System');
                 $message->to($email);
-
-                foreach($files as $f){
-                    $message->attach(asset('public/img/upload/'.$f->file));
-                }
             });
             DB::table('emaillog')->insert(['user_id' => Session::get('id')??DB::table('user')->where('email',$email)->value('id'),'to' => $email,'subject' => $subject,'timestamp' => now()]);
             return true;

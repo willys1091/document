@@ -19,6 +19,7 @@ class CreateApproval extends Migration
             $table->string('type');
             $table->string('email');
             $table->string('status_id')->nullable();
+            $table->text('remarks')->nullable();
             $table->string('audit_at');
             $table->timestamp('audit_date');
         });

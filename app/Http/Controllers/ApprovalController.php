@@ -70,9 +70,7 @@ class ApprovalController extends Controller{
                 session::flash('message','Approval Change unsuccesfully');
                 return redirect('document');
             }
-
         }
-
     }
 
 

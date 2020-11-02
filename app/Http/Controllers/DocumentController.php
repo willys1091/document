@@ -9,6 +9,7 @@ use App\Models\division;
 use App\Models\doctype;
 use App\Models\status;
 use App\Models\users;
+use App\Models\file;
 use Session;
 
 class DocumentController extends Controller{
@@ -41,15 +42,8 @@ class DocumentController extends Controller{
     }
 
     public function store(Request $request){
-        // echo $request->file('userfile');
-        // if ($request->hasFile('userfile')){
-        //     echo count($request->userfile);
-        //     // $this->upload($request->file('userfile'),$id,'\photo');
-        //     // $per = resume_personality::findorfail($id);
-        //     // $per->photo = Session::get('filename');
-        //     // $per->save();
-        // }
         try{
+
             $dt = doctype::where('id',$request->doctype)->value('prefix');
             $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
             $runnum = $this->run_number($check);
@@ -65,6 +59,28 @@ class DocumentController extends Controller{
             $doc->audit_date = date("Y-m-d H:i:s");
             $doc->save();
 
+        if ($request->hasFile('userfile')){
+            $x=1;
+            foreach($request->file('userfile') as $file){
+                $ext = $file->getClientOriginalExtension();
+                $ori = $file->getClientOriginalName();
+                if($file->isValid()){
+                    $filename = date("Ymd").''.$doc->id.''.$x.".$ext";
+                    $file->move('./public/img/upload',$filename);
+                    $file = new file;
+                    $file->doc_id = $doc->id;
+                    $file->name = $ori;
+                    $file->file = $filename;
+                    $file->audit_at = Session::get('id');
+                    $file->audit_date = date("Y-m-d H:i:s");
+                    $file->save();
+                    $x++;
+                }else{
+                    return FALSE;
+                    exit();
+                }
+            }
+        }
             for($x=0;$x<count($request->to);$x++){
                 $app = new approval;
                 $app->document_id = $doc->id;
@@ -96,7 +112,7 @@ class DocumentController extends Controller{
             session::flash('message',$e->getMessage());
 
         }
-        return redirect('document');
+       return redirect('document');
     }
 
     public function upload(Request $request){

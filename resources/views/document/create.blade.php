@@ -58,13 +58,14 @@
                         <label for="name">Message <span class='merah'>*</span></label>
                         <textarea class="form-control summernote" id="message" name="message"></textarea>
                         <div class="form-group">
+                            <input type="file" name="userfile[]" multiple>
                             {{-- <div class="btn btn-default btn-file">
-                                <i class="fas fa-paperclip"></i> Attachment<input type="file" name="attachment">
+                                <i class="fas fa-paperclip"></i> Attachment<input type="file" name="userfile[]" multiple>
                             </div>
                             <p class="help-block">Max. 32MB</p> --}}
 
-                            <input id="userfile" name="userfile[]" type="file" multiple>
-                            <div id="errorBlock" class="help-block"></div>
+                            {{-- <input id="userfile" name="userfile[]" type="file" multiple>
+                            <div id="errorBlock" class="help-block"></div> --}}
                         </div>
                     </div>
                     <div class="card-footer">
