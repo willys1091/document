@@ -36,10 +36,11 @@ Route::get('document/{id}', 'DocumentController@edit');
 Route::patch('document/{id}', 'DocumentController@update');
 Route::get('document/{id}/{param}', 'DocumentController@show');
 Route::post('document/draft', 'DocumentController@draft');
-Route::post('document/upload', 'DocumentController@upload');
+Route::post('document/detail', 'DocumentController@detail');
 
 Route::get('approval/{param}', 'ApprovalController@index');
-
+Route::get('approval/remarks/{param}', 'ApprovalController@remarks');
+Route::post('approval/remarks', 'ApprovalController@action');
 
 Route::get('people/{modul}', 'PeopleController@index');
 Route::get('people/{modul}/create', 'PeopleController@create');

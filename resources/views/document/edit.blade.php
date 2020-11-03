@@ -3,7 +3,9 @@
 <div class="content-wrapper">
 @include('breadcrumb')
 	<section class="content">
-        <form action="{{url('document')}}" method="post" role="form" id="form" enctype="multipart/form-data" onsubmit="submit.disabled = true; return true;">@csrf
+        <form action="{{ url('document/'.$document->id)}}" role="form" enctype="multipart/form-data"method="POST" onsubmit="submit.disabled = true; return true;">@method('PATCH')
+        @csrf
+        <input type="hidden" name="docno" value="{{$document->doc_no}}">
 		<div class="row">
 			<div class="col-12">
 				<div class="card card-primary card-outline">
@@ -11,19 +13,27 @@
                         <div class="form-group">
                             <label for="name">To <span class='merah'>*</span></label>
                             <select class="form-control select2tags select2-hidden-accessible"  name="to[]" id="to[]" style="width: 100%;" multiple>
-                                <option>&nbsp;</option>
+                                @foreach($approval as $a)
+                                    @if($a->type=='To')
+                                        <option value="{{$a->email}}" selected>{{$a->email}}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="name">CC <span class='merah'>*</span></label>
                             <select class="form-control select2tags select2-hidden-accessible"  name="cc[]" id="cc" style="width: 100%;" multiple>
-                                <option>&nbsp;</option>
+                                @foreach($approval as $a)
+                                @if($a->type=='CC')
+                                    <option value="{{$a->email}}" selected>{{$a->email}}</option>
+                                @endif
+                            @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="name">Subject <span class='merah'>*</span></label>
-                            <input type="text" class="form-control" name="subject" required>
+                            <input type="text" class="form-control" name="subject" value="{{$document->title}}" required>
                         </div>
                         <div class="row">
                             <div class="col-6">
@@ -32,7 +42,7 @@
                                     <select class="form-control select2bs4" name="division" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                         <option value="">&nbsp;</option>
                                         @foreach($division as $d)
-                                            <option value='{{$d->id}}'>{{$d->name}}</option>
+                                            <option value='{{$d->id}}' {{$document->division_id==$d->id?'selected':''}}>{{$d->name}}</option>
                                         @endforeach
 						            </select>
                                 </div>
@@ -44,7 +54,7 @@
                                     <select class="form-control select2bs4" name="doctype" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                         <option value="">&nbsp;</option>
                                         @foreach($doctype as $dt)
-                                            <option value='{{$dt->id}}'>{{$dt->name}}</option>
+                                            <option value='{{$dt->id}}' {{$document->doctype_id==$dt->id?'selected':''}}>{{$dt->name}}</option>
                                         @endforeach
 						            </select>
                                 </div>
@@ -55,8 +65,8 @@
                 </div>
                 <div class="card card-primary card-outline">
 					<div class="card-body">
-                        <label for="name">Message <span class=' merah'>*</span></label>
-                        <textarea class="form-control summernote" id="message" name="message"></textarea>
+                        <label for="name">Message <span class='merah'>*</span></label>
+                        <textarea class="form-control summernote" id="message" name="message">{{htmlspecialchars_decode($document->message)}}</textarea>
                         <div class="form-group">
                             <input type="file" name="userfile[]" multiple>
                             {{-- <div class="btn btn-default btn-file">
@@ -69,8 +79,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success float-right submit"><i class="fa fa-paper-plane"></i> Submit</button>@method('post')
-                        <button type="submit" id="draft" class="btn btn-info float-right"><i class="fab fa-firstdraft"></i> Save as Draft</button>
+                        <button type="submit" class="btn btn-success float-right submit"><i class="fa fa-paper-plane"></i> Submit</button>
+
                     </div>
                 </div>
             </div>

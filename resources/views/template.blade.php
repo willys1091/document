@@ -46,7 +46,18 @@
 			</div>
 		</div>
 		@yield('link')
-	</div>
+    </div>
+@elseif((Request::segment(1)=='approval')&&(Request::segment(2)=='remarks'))
+<body class="hold-transition login-page">
+    <div class="login-logo">
+        <a href="{{ url('/') }}"><b>DMS</a>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            @include('notification')
+            @yield('form')
+        </div>
+    </div>
 @else
 	<body class="hold-transition sidebar-mini layout-fixed">
         <div id="voyager-loader">

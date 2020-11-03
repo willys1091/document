@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="row">
-                <section class="col-lg-5 connectedSortable">
+                {{-- <section class="col-lg-5 connectedSortable">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="ion ion-clipboard mr-1"></i> On Progress List</h3>
@@ -67,7 +67,7 @@
                             <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</button>
                         </div>
                     </div>
-                </section>
+                </section> --}}
                 {{-- <section class="col-lg-7 connectedSortable">
                     <div class="card ">
                         <div class="card-header border-0">

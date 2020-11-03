@@ -43,7 +43,6 @@ class DocumentController extends Controller{
 
     public function store(Request $request){
         try{
-
             $dt = doctype::where('id',$request->doctype)->value('prefix');
             $check = document::where('doc_no','like', '%' . $dt.'/'.date("Ymd") . '%')->count()+1;
             $runnum = $this->run_number($check);
@@ -115,19 +114,8 @@ class DocumentController extends Controller{
        return redirect('document');
     }
 
-    public function upload(Request $request){
+    public function detail($id){
 
-        // $files = $request->file('userfile');
-        // if ($request->hasFile('userfile')){
-        //     $nombre = $_FILES["ficheroExcel"]["name"];
-        //     $bdInteli = $_POST['bdInteli'];
-        //     if (move_uploaded_file($_FILES["ficheroExcel"]["tmp_name"], $nombre) ){
-        //         $output = array('uploaded' => 'OK' );
-        //     } else {
-        //        $output = array('uploaded' => 'ERROR' );
-        //     }
-        //     echo json_encode($output);
-        // }
     }
 
     public function draft(Request $request){
@@ -136,15 +124,92 @@ class DocumentController extends Controller{
     }
 
     public function show($id){
-
+        $data['document'] = document::where('id',$id)->get();
+        return view('document.show',$data);
     }
 
     public function edit($id){
-
+        $data['title']='Document Edit | DMS';
+        $data['contentehader']= "bc";
+        $bc[]= array('title'=>'Document','url'=>'document','active'=>'0');
+        $bc[]= array('title'=>'Edit','url'=>'','active'=>'1');
+        $data['bc'] = $bc;
+		$data['doctype'] =doctype::where('active','1')->get();
+		$data['division'] =division::where('active','1')->get();
+		$data['document'] =document::where('id',$id)->first();
+		$data['approval'] =approval::where('document_id',$id)->get();
+        return View('document.edit',$data);
     }
 
     public function update(Request $request, $id){
+        try{
+            $nextseq = document::where('doc_no',$request->docno)->max('sequence');
+            $doc = new document;
+            $doc->doc_no = $request->docno;
+            $doc->sequence = $nextseq + 1;
+            $doc->doctype_id = $request->doctype;
+            $doc->status_id = '2';
+            $doc->division_id =  $request->division;
+            $doc->title = $request->subject;
+            $doc->message = htmlspecialchars($request->message);
+            $doc->audit_at = Session::get('id');
+            $doc->audit_date = date("Y-m-d H:i:s");
+            $doc->save();
 
+        if ($request->hasFile('userfile')){
+            $x=1;
+            foreach($request->file('userfile') as $file){
+                $ext = $file->getClientOriginalExtension();
+                $ori = $file->getClientOriginalName();
+                if($file->isValid()){
+                    $filename = date("Ymd").''.$doc->id.''.$x.".$ext";
+                    $file->move('./public/img/upload',$filename);
+                    $file = new file;
+                    $file->doc_id = $doc->id;
+                    $file->name = $ori;
+                    $file->file = $filename;
+                    $file->audit_at = Session::get('id');
+                    $file->audit_date = date("Y-m-d H:i:s");
+                    $file->save();
+                    $x++;
+                }else{
+                    return FALSE;
+                    exit();
+                }
+            }
+        }
+            for($x=0;$x<count($request->to);$x++){
+                $app = new approval;
+                $app->document_id = $doc->id;
+                $app->type = 'To';
+                $app->email = $request->to[$x];
+                $app->status_id = '2';
+                $app->audit_at = Session::get('id');
+                $app->audit_date = date("Y-m-d H:i:s");
+                $app->save();
+                $param['doc_id'] = $doc->id;
+                $param['app_id'] = $app->id;
+                $param['btn'] = 'approval';
+                $this->SendEmail2($request->to[$x],$request->subject,$request->message,$param);
+            }
+
+            for($y=0;$y<count($request->cc);$y++){
+                $app = new approval;
+                $app->document_id = $doc->id;
+                $app->type = 'CC';
+                $app->email = $request->cc[$y];
+                $app->audit_at = Session::get('id');
+                $app->audit_date = date("Y-m-d H:i:s");
+                $app->save();
+            }
+            session::flash('error','success');
+            session::flash('message','Document Added Succesfully');
+        }catch(Exception $e){
+            session::flash('error','error');
+            session::flash('message',$e->getMessage());
+
+        }
+       return redirect('document');
     }
 
     public function destroy($id){

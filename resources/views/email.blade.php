@@ -40,7 +40,7 @@
                         line-height: 25px;
                         text-decoration:none;'>Reject</a>
 
-                        <a href='".url('approval/'.base64_encode('5/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email.'/email'))."'
+                        <a href='".url('approval/remarks/'.base64_encode('5/'.$param['doc_id'].'/'.$param['app_id'].'/'.$email.'/email'))."'
                 style='
                         width: 100px;
                         height: 25px;
